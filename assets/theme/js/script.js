@@ -116,13 +116,22 @@
 
     $.isMobile = function (type) {
         var reg = [];
+        //oku-update 20180428 start
+        // parallax効果を有効にするため、iosのtypeを削除
+        // var any = {
+        //     blackberry: 'BlackBerry',
+        //     android: 'Android',
+        //     windows: 'IEMobile',
+        //     opera: 'Opera Mini',
+        //     ios: 'iPhone|iPad|iPod'
+        // };
         var any = {
             blackberry: 'BlackBerry',
             android: 'Android',
             windows: 'IEMobile',
-            opera: 'Opera Mini',
-            ios: 'iPhone|iPad|iPod'
+            opera: 'Opera Mini'
         };
+        //oku-update 20180428 end
         type = 'undefined' == $.type(type) ? '*' : type.toLowerCase();
         if ('*' == type) reg = $.map(any, function (v) {
             return v;
@@ -210,9 +219,7 @@
             $(card).jarallax('destroy').css('position', '');
         }
 
-        //oku-update 20180428
-        //if ($.fn.jarallax && !$.isMobile()) {
-        if ($.fn.jarallax) {
+        if ($.fn.jarallax && !$.isMobile()) {
             $(window).on('update.parallax', function (event) {
                 setTimeout(function () {
                     var $jarallax = $('.mbr-parallax-background');
@@ -555,13 +562,10 @@
 
         $(document).ready(function () {
             // disable animation on scroll on mobiles
-
-            //oku-update 20180428
-            // if ($.isMobile()) {
-            //     return;
-            //     // enable animation on scroll
-            // } else if ($('input[name=animation]').length) {
-            if ($('input[name=animation]').length) {
+            if ($.isMobile()) {
+                return;
+                // enable animation on scroll
+            } else if ($('input[name=animation]').length) {
                 $('input[name=animation]').remove();
 
                 var $animatedElements = $('p, h1, h2, h3, h4, h5, a, button, small, img, li, blockquote, .mbr-author-name, em, label, input, textarea, .input-group, .iconbox, .btn-social, .mbr-figure, .mbr-map, .mbr-testimonial .card-block, .mbr-price-value, .mbr-price-figure, .dataTable, .dataTables_info').not(function () {
